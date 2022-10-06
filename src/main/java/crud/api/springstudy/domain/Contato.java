@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class Contato {
 
     @Id
-    @NonNull
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,8 +27,4 @@ public class Contato {
     @NonNull
     @Column
     private String email;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Pessoa pessoa;
 }

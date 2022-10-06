@@ -19,6 +19,4 @@ public class ContatoDTO {
 
     private String email;
 
-    private Pessoa pessoa;
-
 }
