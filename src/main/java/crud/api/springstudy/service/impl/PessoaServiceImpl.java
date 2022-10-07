@@ -31,4 +31,9 @@ public class PessoaServiceImpl implements PessoaService {
         return this.pessoaRepository.save(this.pessoaMapper.toEntity(pessoaDTO));
     }
 
+    @Override
+    public Pessoa update(PessoaDTO pessoaDTO) {
+        return this.pessoaRepository.save(this.pessoaMapper.toEntity(pessoaDTO));
+    }
+
 }

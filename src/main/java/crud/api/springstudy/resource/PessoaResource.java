@@ -32,4 +32,10 @@ public class PessoaResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(pessoa).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @PutMapping(value = ID)
+    public ResponseEntity<PessoaDTO> update(@PathVariable Long id, @RequestBody PessoaDTO pessoaDTO) {
+        pessoaDTO.setId(id);
+        return ResponseEntity.ok().body(this.pessoaMapper.toDTO(this.pessoaService.update(pessoaDTO)));
+    }
 }

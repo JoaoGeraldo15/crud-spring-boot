@@ -8,4 +8,6 @@ public interface PessoaService {
     Pessoa findById(Long id);
 
     Pessoa create(PessoaDTO PessoaDTO);
+
+    Pessoa update(PessoaDTO PessoaDTO);
 }
