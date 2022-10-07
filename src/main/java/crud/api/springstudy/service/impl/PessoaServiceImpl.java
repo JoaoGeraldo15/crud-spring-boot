@@ -1,6 +1,8 @@
 package crud.api.springstudy.service.impl;
 
 import crud.api.springstudy.domain.Pessoa;
+import crud.api.springstudy.domain.dto.PessoaDTO;
+import crud.api.springstudy.domain.mapper.PessoaMapper;
 import crud.api.springstudy.repository.PessoaRepository;
 import crud.api.springstudy.service.PessoaService;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
@@ -15,12 +17,18 @@ public class PessoaServiceImpl implements PessoaService {
 
     private final PessoaRepository pessoaRepository;
 
+    private final PessoaMapper pessoaMapper;
+
     @Override
     public Pessoa findById(Long id) {
         Optional<Pessoa> user = this.pessoaRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada"));
     }
 
-
+    @Override
+    public Pessoa create(PessoaDTO pessoaDTO) {
+        // TODO Inserir validações CPF, EMAIL
+        return this.pessoaRepository.save(this.pessoaMapper.toEntity(pessoaDTO));
+    }
 
 }
