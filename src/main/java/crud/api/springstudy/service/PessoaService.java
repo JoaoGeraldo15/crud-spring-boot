@@ -10,4 +10,6 @@ public interface PessoaService {
     Pessoa create(PessoaDTO PessoaDTO);
 
     Pessoa update(PessoaDTO PessoaDTO);
+
+    void  delete(Long id);
 }

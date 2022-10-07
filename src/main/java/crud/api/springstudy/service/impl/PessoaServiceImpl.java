@@ -36,4 +36,10 @@ public class PessoaServiceImpl implements PessoaService {
         return this.pessoaRepository.save(this.pessoaMapper.toEntity(pessoaDTO));
     }
 
+    @Override
+    public void delete(Long id) {
+        findById(id);
+        this.pessoaRepository.deleteById(id);
+    }
+
 }

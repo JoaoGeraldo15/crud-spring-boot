@@ -38,4 +38,10 @@ public class PessoaResource {
         pessoaDTO.setId(id);
         return ResponseEntity.ok().body(this.pessoaMapper.toDTO(this.pessoaService.update(pessoaDTO)));
     }
+
+    @DeleteMapping(value = ID)
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        this.pessoaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
