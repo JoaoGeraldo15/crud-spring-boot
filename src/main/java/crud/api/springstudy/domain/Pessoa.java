@@ -2,6 +2,7 @@ package crud.api.springstudy.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -18,7 +19,6 @@ import java.util.List;
 public class Pessoa {
 
     @Id
-    @NonNull
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +30,7 @@ public class Pessoa {
     @NonNull
     @Size(min = 11, max = 11)
     @Column
+    @CPF(message = "CPF informado é inválido")
     private String cpf;
 
     @NonNull
@@ -37,7 +38,7 @@ public class Pessoa {
     private Date dataNascimento;
 
     @NonNull
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(nullable = false)
     private List<Contato> contatos = new ArrayList<>();
 
