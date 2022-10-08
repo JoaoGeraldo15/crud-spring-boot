@@ -5,6 +5,8 @@ import crud.api.springstudy.domain.dto.PessoaDTO;
 import crud.api.springstudy.domain.mapper.PessoaMapper;
 import crud.api.springstudy.service.PessoaService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,6 +26,12 @@ public class PessoaResource {
     @GetMapping(value = ID)
     public ResponseEntity<PessoaDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.pessoaMapper.toDTO(this.pessoaService.findById(id)));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<PessoaDTO>> findAll(Pageable pageable) {
+        Page<PessoaDTO> pessoaDTO = this.pessoaService.findAll(pageable);
+        return ResponseEntity.ok(pessoaDTO);
     }
 
     @PostMapping

@@ -5,7 +5,7 @@ import crud.api.springstudy.domain.Pessoa;
 import crud.api.springstudy.domain.dto.PessoaDTO;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {})
 public interface PessoaMapper {
 
     Pessoa toEntity(PessoaDTO pessoaDTO);

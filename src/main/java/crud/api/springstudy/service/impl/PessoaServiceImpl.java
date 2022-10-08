@@ -7,6 +7,8 @@ import crud.api.springstudy.repository.PessoaRepository;
 import crud.api.springstudy.service.PessoaService;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,6 +25,11 @@ public class PessoaServiceImpl implements PessoaService {
     public Pessoa findById(Long id) {
         Optional<Pessoa> user = this.pessoaRepository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("Pessoa não encontrada"));
+    }
+
+    @Override
+    public Page<PessoaDTO> findAll(Pageable pageable) {
+        return this.pessoaRepository.findAll(pageable).map(pessoaMapper::toDTO);
     }
 
     @Override
