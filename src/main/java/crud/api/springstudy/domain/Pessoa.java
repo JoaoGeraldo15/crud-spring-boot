@@ -28,7 +28,7 @@ public class Pessoa {
     private String nome;
 
     @NonNull
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
     @Column
     @CPF(message = "CPF informado é inválido")
     private String cpf;
