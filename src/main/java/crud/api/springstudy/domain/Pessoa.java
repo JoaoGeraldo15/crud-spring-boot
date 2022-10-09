@@ -1,14 +1,12 @@
 package crud.api.springstudy.domain;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -35,7 +33,7 @@ public class Pessoa {
 
     @NonNull
     @Column
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     @NonNull
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

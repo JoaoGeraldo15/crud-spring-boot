@@ -6,6 +6,7 @@ import crud.api.springstudy.domain.dto.PessoaDTO;
 import crud.api.springstudy.domain.mapper.PessoaMapper;
 import crud.api.springstudy.repository.PessoaRepository;
 import crud.api.springstudy.service.PessoaService;
+import crud.api.springstudy.service.exceptions.BirthDateViolationException;
 import crud.api.springstudy.service.exceptions.MinimumNumberOfContactsException;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +40,19 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public Pessoa create(PessoaDTO pessoaDTO) {
         // TODO Inserir validações EMAIL
-        validarQuantidadeContatos(pessoaDTO.getContatos());
+        validarDadosPessoa(pessoaDTO);
         return this.pessoaRepository.save(this.pessoaMapper.toEntity(pessoaDTO));
+    }
+
+    private void validarDadosPessoa(PessoaDTO pessoaDTO) {
+        validarDataNascimento(pessoaDTO.getDataNascimento());
+        validarQuantidadeContatos(pessoaDTO.getContatos());
+    }
+
+    private void validarDataNascimento(LocalDate dataNascimento) {
+        if (dataNascimento.isAfter(LocalDate.now())) {
+            throw new BirthDateViolationException("A Data de nascimento não pode ser uma data futura.");
+        }
     }
 
     private void validarQuantidadeContatos(List<ContatoDTO> contatos) {

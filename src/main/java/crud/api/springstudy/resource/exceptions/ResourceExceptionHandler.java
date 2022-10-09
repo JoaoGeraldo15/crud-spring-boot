@@ -1,5 +1,6 @@
 package crud.api.springstudy.resource.exceptions;
 
+import crud.api.springstudy.service.exceptions.BirthDateViolationException;
 import crud.api.springstudy.service.exceptions.DataIntegratyViolationExcepetion;
 import crud.api.springstudy.service.exceptions.MinimumNumberOfContactsException;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
@@ -52,4 +53,9 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(BirthDateViolationException.class)
+    public ResponseEntity<StandardError> birthDateViolation(BirthDateViolationException ex, HttpServletRequest request) {
+        StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 }
