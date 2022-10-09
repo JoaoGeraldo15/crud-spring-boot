@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -35,7 +36,7 @@ public class PessoaResource {
     }
 
     @PostMapping
-    public ResponseEntity<PessoaDTO> create(@RequestBody PessoaDTO pessoaDTO) {
+    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaDTO pessoaDTO) {
         Pessoa pessoa = this.pessoaService.create(pessoaDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(pessoa).toUri();
         return ResponseEntity.created(uri).build();

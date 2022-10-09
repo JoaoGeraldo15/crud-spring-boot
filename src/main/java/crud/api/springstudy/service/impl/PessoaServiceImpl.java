@@ -7,9 +7,11 @@ import crud.api.springstudy.domain.mapper.PessoaMapper;
 import crud.api.springstudy.repository.PessoaRepository;
 import crud.api.springstudy.service.PessoaService;
 import crud.api.springstudy.service.exceptions.BirthDateViolationException;
+import crud.api.springstudy.service.exceptions.EmailNotValid;
 import crud.api.springstudy.service.exceptions.MinimumNumberOfContactsException;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class PessoaServiceImpl implements PessoaService {
     private final PessoaRepository pessoaRepository;
 
     private final PessoaMapper pessoaMapper;
+
+    private final EmailValidator emailValidator;
 
     @Override
     public Pessoa findById(Long id) {
@@ -47,6 +51,15 @@ public class PessoaServiceImpl implements PessoaService {
     private void validarDadosPessoa(PessoaDTO pessoaDTO) {
         validarDataNascimento(pessoaDTO.getDataNascimento());
         validarQuantidadeContatos(pessoaDTO.getContatos());
+        validarEmail(pessoaDTO.getContatos());
+    }
+
+    private void validarEmail(List<ContatoDTO> contatos) {
+        contatos.forEach(contatoDTO -> {
+            if (!emailValidator.isValid(contatoDTO.getEmail())) {
+                throw new EmailNotValid("Email não válido: " + contatoDTO.getEmail());
+            }
+        });
     }
 
     private void validarDataNascimento(LocalDate dataNascimento) {
