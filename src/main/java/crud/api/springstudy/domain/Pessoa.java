@@ -1,14 +1,12 @@
 package crud.api.springstudy.domain;
 
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,14 +26,14 @@ public class Pessoa {
     private String nome;
 
     @NonNull
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
     @Column
     @CPF(message = "CPF informado é inválido")
     private String cpf;
 
     @NonNull
     @Column
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     @NonNull
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
