@@ -1,16 +1,19 @@
 package crud.api.springstudy.service.impl;
 
 import crud.api.springstudy.domain.Pessoa;
+import crud.api.springstudy.domain.dto.ContatoDTO;
 import crud.api.springstudy.domain.dto.PessoaDTO;
 import crud.api.springstudy.domain.mapper.PessoaMapper;
 import crud.api.springstudy.repository.PessoaRepository;
 import crud.api.springstudy.service.PessoaService;
+import crud.api.springstudy.service.exceptions.MinimumNumberOfContactsException;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,8 +37,15 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public Pessoa create(PessoaDTO pessoaDTO) {
-        // TODO Inserir validações CPF, EMAIL
+        // TODO Inserir validações EMAIL
+        validarQuantidadeContatos(pessoaDTO.getContatos());
         return this.pessoaRepository.save(this.pessoaMapper.toEntity(pessoaDTO));
+    }
+
+    private void validarQuantidadeContatos(List<ContatoDTO> contatos) {
+        if (contatos.size() == 0) {
+            throw new MinimumNumberOfContactsException("A pessoa deve possuir no mínimo 1 contato para ser cadastrada.");
+        }
     }
 
     @Override

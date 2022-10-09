@@ -1,6 +1,7 @@
 package crud.api.springstudy.resource.exceptions;
 
 import crud.api.springstudy.service.exceptions.DataIntegratyViolationExcepetion;
+import crud.api.springstudy.service.exceptions.MinimumNumberOfContactsException;
 import crud.api.springstudy.service.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,12 @@ public class ResourceExceptionHandler {
 
         StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
                 messageError.toString(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(MinimumNumberOfContactsException.class)
+    public ResponseEntity<StandardError> MinimumNumberOfContactsException(MinimumNumberOfContactsException ex, HttpServletRequest request) {
+        StandardError error = new StandardError(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
